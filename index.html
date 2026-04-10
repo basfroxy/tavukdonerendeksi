@@ -3,123 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tavuk Döner Endeksi | GökBörü</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>Tavuk Döner Endeksi | GökBörü Analitik Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        :root { --bg: #0b0e14; --card: #151921; --accent: #f97316; --text: #e2e8f0; --border: #2d333b; }
-        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 20px; }
-        .container { max-width: 1000px; margin: 0 auto; }
-        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid var(--border); }
-        .card h3 { font-size: 0.8rem; color: #94a3b8; margin: 0; text-transform: uppercase; }
-        .card .val { font-size: 2.5rem; font-weight: 900; margin: 10px 0; }
-        table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: 12px; overflow: hidden; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid var(--border); }
-        th { color: #94a3b8; font-size: 0.8rem; }
+        :root {
+            --bg: #0b0e14; --card: #151921; --accent: #f97316;
+            --text: #e2e8f0; --dim: #94a3b8; --border: #2d333b;
+            --blue: #38bdf8; --gold: #e9b949; --danger: #ef4444;
+        }
+
+        body { background-color: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; margin: 0; padding: 20px; line-height: 1.5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        header { display: flex; justify-content: space-between; align-items: flex-end; padding: 40px 0; border-bottom: 1px solid var(--border); margin-bottom: 30px; }
+        .brand h1 { font-size: 2.8rem; font-weight: 900; margin: 0; letter-spacing: -2px; }
+        .brand a { color: var(--accent); text-decoration: none; font-weight: bold; }
+        .update-box { text-align: right; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .card { background: var(--card); padding: 25px; border-radius: 12px; border: 1px solid var(--border); border-left: 4px solid var(--border); }
+        .card.active { border-left-color: var(--accent); }
+        .card label { font-size: 0.75rem; font-weight: bold; color: var(--dim); text-transform: uppercase; letter-spacing: 1px; }
+        .card .value { font-size: 2.8rem; font-weight: 900; margin: 10px 0; color: #fff; }
+        .card .sub { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+
+        .charts-main-row { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .charts-extra-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        
+        .chart-card { background: var(--card); border: 1px solid var(--border); padding: 20px; border-radius: 12px; }
+        .chart-card h3 { margin: 0 0 15px 0; font-size: 1.1rem; display: flex; align-items: center; gap: 8px; color: var(--dim); }
+
+        .insights-panel { background: #1a1f29; border: 1px solid var(--border); padding: 20px; border-radius: 12px; }
+        .insight-item { border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 0.9rem; color: var(--dim); }
+        .insight-item strong { color: var(--accent); }
+
+        .table-container { background: var(--card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; margin-top: 30px; margin-bottom: 50px; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 0.9rem; }
+        th { background: rgba(255,255,255,0.02); padding: 15px 20px; color: var(--dim); text-transform: uppercase; }
+        td { padding: 15px 20px; border-top: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; }
+
+        footer { text-align: center; padding: 40px 0; border-top: 1px solid var(--border); color: var(--dim); }
+        .footer-links a { color: var(--text); margin: 0 10px; text-decoration: none; font-weight: bold; }
+
+        @media (max-width: 900px) { .charts-main-row, .charts-extra-row { grid-template-columns: 1fr; } }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <header style="margin-bottom: 40px;">
-        <h1>Tavuk Döner Endeksi</h1>
-        <p>Geliştiren: Hüseyin Furkan Mıklar | <span id="update-date">...</span></p>
+    <header>
+        <div class="brand">
+            <h1>Tavuk Döner Endeksi</h1>
+            <p>Geliştiren: <a href="https://www.linkedin.com/in/furkanmkl/" target="_blank">Hüseyin Furkan Mıklar</a> (GökBörü)</p>
+        </div>
+        <div class="update-box">
+            <small>VERİ GÜNCELLEME</small>
+            <span id="update-date">10 Nisan 2026</span>
+        </div>
     </header>
 
-    <div class="stats">
-        <div class="card">
-            <h3>Güncel TL Fiyatı</h3>
-            <div class="val" id="price-tl">₺0</div>
+    <div class="stats-grid">
+        <div class="card active">
+            <label>GÜNCEL TL FİYATI</label>
+            <div class="value" id="price-tl">₺0</div>
+            <div class="sub" id="price-change">...</div>
         </div>
         <div class="card">
-            <h3>Dolar Karşılığı</h3>
-            <div class="val" id="price-usd">$0.00</div>
+            <label>USD KARŞILIĞI</label>
+            <div class="value" id="price-usd">$0.00</div>
+            <div class="sub" id="usd-change">...</div>
         </div>
         <div class="card">
-            <h3>Maaş Karşılığı</h3>
-            <div class="val" id="wage-qty">0 Adet</div>
+            <label>ASGARİ ÜCRET GÜCÜ</label>
+            <div class="value" id="wage-qty">0 Adet</div>
+            <div class="sub">Aylık Net Satın Alma</div>
         </div>
     </div>
 
-    <div class="card" style="margin-bottom: 30px;">
-        <h3>Fiyat Projeksiyonu</h3>
-        <canvas id="mainChart"></canvas>
+    <div class="charts-main-row">
+        <div class="chart-card">
+            <h3>📈 Fiyat Projeksiyonu (TL & USD)</h3>
+            <canvas id="mainChart"></canvas>
+        </div>
+        <div class="insights-panel">
+            <h4 style="margin-top:0">💡 Veri Tespitleri</h4>
+            <div class="insight-item">En Yüksek Alım Gücü: <strong>Mart 2021</strong> (232 Adet)</div>
+            <div class="insight-item">En Büyük Sıçrama: <strong>Ekim 21 - Aralık 21</strong> (%120 Artış)</div>
+            <div class="insight-item" style="color:var(--danger)">Kritik Eşik: Maaş/Döner oranı <strong>80'in altına düştü.</strong></div>
+            <div class="insight-item">200 TL'nin fiziksel kaybı: <strong>12 Adet ➔ 0.8 Adet</strong></div>
+        </div>
     </div>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Dönem</th>
-                <th>TL Fiyatı</th>
-                <th>USD Kuru</th>
-                <th>Alım Gücü</th>
-            </tr>
-        </thead>
-        <tbody id="data-table"></tbody>
-    </table>
+    <div class="charts-extra-row">
+        <div class="chart-card">
+            <h3>🥇 Gram Altın / Döner Rasyosu</h3>
+            <canvas id="goldChart"></canvas>
+        </div>
+        <div class="chart-card">
+            <h3>📉 200 TL Gücü (Logaritmik Ölçek)</h3>
+            <canvas id="powerChart"></canvas>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Dönem</th>
+                    <th>Fiyat (TL)</th>
+                    <th>Kur (USD)</th>
+                    <th>USD Fiyatı</th>
+                    <th>Alım Gücü (Maaş)</th>
+                </tr>
+            </thead>
+            <tbody id="data-table"></tbody>
+        </table>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://furkan.gokboru.net.tr">GÖKBÖRÜ</a> | 
+            <a href="https://github.com/basfroxy">GITHUB</a>
+        </div>
+        <p>© 2026 Tavuk Döner Endeksi | Veriler manuel olarak güncellenmektedir.</p>
+    </footer>
 </div>
 
 <script>
-    async function init() {
-        try {
-            // GitHub Pages'da dosya yolunun doğru olduğundan emin ol
-            const res = await fetch('data.json');
-            const data = await res.json();
-            
-            const history = data.history;
-            const latest = history[history.length - 1];
+    // VERİLER BURADA (data.json yerine buradan çekilir)
+    const dataset = {
+        "last_update": "10 Nisan 2026",
+        "history": [
+            {"date": "2020-10", "price": 10, "usd_rate": 7.90, "gold_gr": 485, "min_wage": 2324},
+            {"date": "2021-12", "price": 22, "usd_rate": 13.50, "gold_gr": 780, "min_wage": 2825},
+            {"date": "2022-08", "price": 45, "usd_rate": 18.10, "gold_gr": 1020, "min_wage": 5500},
+            {"date": "2023-11", "price": 95, "usd_rate": 28.50, "gold_gr": 1850, "min_wage": 11402},
+            {"date": "2024-05", "price": 140, "usd_rate": 32.20, "gold_gr": 2400, "min_wage": 17002},
+            {"date": "2025-01", "price": 190, "usd_rate": 35.40, "gold_gr": 2950, "min_wage": 17002},
+            {"date": "2026-04", "price": 230, "usd_rate": 41.20, "gold_gr": 4200, "min_wage": 17002}
+        ]
+    };
 
-            // NaN Hatalarını Önlemek İçin parseFloat Kullanımı
-            const currentPrice = parseFloat(latest.price);
-            const currentUsd = parseFloat(latest.usd_rate);
-            const currentWage = parseFloat(latest.min_wage);
+    Chart.defaults.color = '#94a3b8';
+    Chart.defaults.borderColor = '#2d333b';
 
-            document.getElementById('update-date').innerText = data.last_update;
-            document.getElementById('price-tl').innerText = `₺${currentPrice}`;
-            
-            // Hesaplamalar
-            const usdVal = (currentPrice / currentUsd).toFixed(2);
-            const wageVal = Math.floor(currentWage / currentPrice);
+    function init() {
+        const history = dataset.history;
+        const latest = history[history.length - 1];
+        const first = history[0];
 
-            document.getElementById('price-usd').innerText = `$${usdVal}`;
-            document.getElementById('wage-qty').innerText = `${wageVal} Adet`;
+        // Kartlar
+        document.getElementById('price-tl').innerText = `₺${latest.price}`;
+        const currentUsdPrice = (latest.price / latest.usd_rate).toFixed(2);
+        document.getElementById('price-usd').innerText = `$${currentUsdPrice}`;
+        document.getElementById('wage-qty').innerText = `${Math.floor(latest.min_wage / latest.price)} Adet`;
+        
+        const totalChange = ((latest.price / first.price - 1) * 100).toFixed(0);
+        document.getElementById('price-change').innerText = `↑ %${totalChange} (2020'den beri)`;
+        document.getElementById('usd-change').innerText = `Dolar bazında ↑ %${(((currentUsdPrice/(first.price/first.usd_rate))-1)*100).toFixed(0)}`;
 
-            // Tablo
-            const tbody = document.getElementById('data-table');
-            history.slice().reverse().forEach(row => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td>${row.date}</td>
-                    <td style="color:var(--accent)">₺${row.price}</td>
-                    <td>₺${row.usd_rate}</td>
-                    <td>${Math.floor(row.min_wage / row.price)} Adet</td>
-                `;
-                tbody.appendChild(tr);
-            });
+        // Tablo
+        const tbody = document.getElementById('data-table');
+        history.slice().reverse().forEach(row => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${row.date}</td>
+                <td style="color:var(--accent); font-weight:bold">₺${row.price}</td>
+                <td>₺${row.usd_rate}</td>
+                <td>$${(row.price/row.usd_rate).toFixed(2)}</td>
+                <td>${Math.floor(row.min_wage/row.price)} Adet</td>
+            `;
+            tbody.appendChild(tr);
+        });
 
-            // Grafik
-            new Chart(document.getElementById('mainChart'), {
-                type: 'line',
-                data: {
-                    labels: history.map(h => h.date),
-                    datasets: [{
-                        label: 'Fiyat (TL)',
-                        data: history.map(h => h.price),
-                        borderColor: '#f97316',
-                        tension: 0.4
-                    }]
-                },
-                options: { scales: { y: { grid: { color: '#2d333b' } } } }
-            });
+        // 1. Ana Grafik (Çift Eksen)
+        new Chart(document.getElementById('mainChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => h.date),
+                datasets: [
+                    { label: 'TL', data: history.map(h => h.price), borderColor: '#f97316', backgroundColor: 'rgba(249,115,22,0.1)', fill: true, yAxisID: 'y' },
+                    { label: 'USD', data: history.map(h => (h.price/h.usd_rate).toFixed(2)), borderColor: '#38bdf8', borderDash: [5,5], yAxisID: 'y1' }
+                ]
+            },
+            options: { scales: { y: { position: 'left' }, y1: { position: 'right', grid: { display: false } } } }
+        });
 
-        } catch (err) {
-            console.error("Yükleme Hatası:", err);
-            document.body.innerHTML += `<p style="color:red; text-align:center">Veri yüklenemedi: ${err.message}</p>`;
-        }
+        // 2. Altın Rasyosu
+        new Chart(document.getElementById('goldChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => h.date),
+                datasets: [{ label: '1 Gr Altın / Döner', data: history.map(h => (h.gold_gr / h.price).toFixed(1)), borderColor: '#e9b949', tension: 0.3, fill: true, backgroundColor: 'rgba(233,185,73,0.05)' }]
+            }
+        });
+
+        // 3. 200 TL Gücü (Logaritmik Ölçek)
+        new Chart(document.getElementById('powerChart'), {
+            type: 'line',
+            data: {
+                labels: history.map(h => h.date),
+                datasets: [{ label: 'Alınan Adet', data: history.map(h => (200 / h.price).toFixed(2)), borderColor: '#ef4444', pointBackgroundColor: '#ef4444' }]
+            },
+            options: { scales: { y: { type: 'logarithmic' } } }
+        });
     }
+
     init();
 </script>
-
 </body>
 </html>
