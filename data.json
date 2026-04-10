@@ -1,0 +1,17 @@
+{
+  "last_update": "10 Nisan 2026",
+  "author": "Hüseyin Furkan Mıklar",
+  "links": {
+    "web": "https://furkan.gokboru.net.tr",
+    "linkedin": "https://www.linkedin.com/in/furkanmkl/"
+  },
+  "history": [
+    {"date": "2020-10", "price": 10, "usd": 1.25, "gold": 0.02, "min_wage_qty": 232},
+    {"date": "2021-12", "price": 22, "usd": 1.60, "gold": 0.03, "min_wage_qty": 128},
+    {"date": "2022-08", "price": 45, "usd": 2.50, "gold": 0.04, "min_wage_qty": 122},
+    {"date": "2023-11", "price": 95, "usd": 3.30, "gold": 0.05, "min_wage_qty": 119},
+    {"date": "2024-05", "price": 140, "usd": 4.35, "gold": 0.06, "min_wage_qty": 121},
+    {"date": "2025-01", "price": 190, "usd": 5.40, "gold": 0.06, "min_wage_qty": 89},
+    {"date": "2026-04", "price": 230, "usd": 5.60, "gold": 0.05, "min_wage_qty": 74}
+  ]
+}
