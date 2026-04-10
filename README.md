@@ -1,26 +1,28 @@
-# 🌯 Tavuk Döner Endeksi (TDE)
+# 🌯 Tavuk Döner Endeksi (TDE) v2.0
 
-Türkiye'nin en yaygın sokak lezzeti üzerinden, resmi rakamların ötesindeki gerçek satın alma gücünü takip eden açık kaynaklı bir ekonomik gösterge projesi.
+Türkiye'nin reel enflasyonunu ve satın alma gücündeki değişimi, en yaygın sokak lezzeti olan **Tavuk Döner** üzerinden takip eden interaktif bir veri analitiği dashboard'u.
 
-[Link: furkan.gokboru.net.tr](https://furkan.gokboru.net.tr)
+[![GökBörü](https://img.shields.io/badge/Project-GökBörü-orange?style=for-the-badge)](https://furkan.gokboru.net.tr)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Furkan_Mıklar-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/furkanmkl/)
+[![GitHub Pages](https://img.shields.io/badge/Live-Demo-green?style=for-the-badge&logo=github)](https://furkanmkl.github.io/doner-endeksi/)
 
-## 📊 Özellikler
-- **Karanlık Tema:** Modern ve göz yormayan veri dashboard'u.
-- **Dinamik Veri:** `data.json` üzerinden kolayca güncellenebilir mimari.
-- **Çapraz Analiz:** TL, USD, Altın ve Asgari Ücret karşılaştırmalı istatistikler.
-- **Responsive:** Mobil ve masaüstü cihazlarla tam uyumlu.
+---
 
-## 🚀 Kurulum
-Bu projeyi kendi sunucunuzda çalıştırmak için:
-1. Dosyaları sunucunuza yükleyin.
-2. PHP 7.4+ yüklü olduğundan emin olun.
-3. `data.json` dosyasını güncel fiyatlarla düzenleyin.
+## 📊 Neyi Takip Ediyoruz?
+Resmî rakamların ötesinde, halkın temel tüketim alışkanlıklarını baz alarak gerçek ekonomik tabloyu görselleştiriyoruz. 
+- **Dolar Bazlı Değer:** Dönerin küresel para birimi karşısındaki konumu.
+- **Asgari Ücret Gücü:** Bir asgari ücretli ayda kaç adet döner yiyebilir?
+- **Altın Rasyosu:** 1 gram altın kaç döner ediyor? (Gerçek değer saklama testi).
+- **200 TL'nin Erimesi:** En büyük banknotun zaman içindeki fiziksel kaybı.
 
-## 🛠️ Mimari
-- **Backend:** PHP 8.x
-- **Veri:** JSON
-- **Frontend:** Chart.js, Inter & JetBrains Mono Fonts
-- **Tasarım Konsepti:** Hüseyin Furkan Mıklar (GökBörü)
+## 🚀 Teknik Özellikler
+- **Frontend:** HTML5, CSS3 (Custom Dark Theme), Vanilla JavaScript.
+- **Veri Görselleştirme:** [Chart.js](https://www.chartjs.org/) (Multi-axis & Logarithmic scales).
+- **Veri Yönetimi:** Merkezi `data.json` yapısı ile hızlı ve kolay güncelleme.
+- **Hata Yönetimi:** Geçmişteki `NaN` ve `undefined` hesaplama hataları v2.0 ile giderildi.
 
-## ⚖️ Lisans
-Bu proje MIT lisansı ile korunmaktadır.
+## 📂 Dosya Yapısı
+```text
+├── index.html          # Dashboard ana kodları ve Fetch API
+├── data.json           # Tarihsel fiyat ve kur veritabanı
+└── assets/             # Görsel materyaller ve ekran görüntüleri
